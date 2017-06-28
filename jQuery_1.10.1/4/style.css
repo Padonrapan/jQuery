@@ -1,0 +1,14 @@
+/*
+#box{
+    color:blue;
+}
+.pox{
+    background: yellow;
+}
+div{
+    color:blue;
+}*/
+
+#box > p{
+    color:red;
+}
