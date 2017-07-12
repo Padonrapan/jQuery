@@ -1,0 +1,11 @@
+#box{
+    background: red;
+}
+.test{
+    display:none;
+    background: orange;
+    float:left;
+    padding:5px;
+    margin:5px;
+
+}
