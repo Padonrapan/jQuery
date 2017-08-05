@@ -3,95 +3,69 @@
 $(function(){
     /*
     $('.button').click(function(){
-       $('#box').animate({
-           width:'200px',
-           height:'200px',
-           opacity:0.5,
-           fontSize:'50px'
-       }) ;
-    });
-
-    //必传的参数只有一个，就是一个键值对CSS 变化样式的对象。还有两个可选参数分别
-    //为速度和回调函数。
-    $('.button').click(function () {
         $('#box').animate({
-            'width' : '300px',
-            'height' : '200px'
-        }, 1000, function () {
-            alert('动画执行完毕执行我！');
-        });
+           left:'800px'
+        },3000);
+    });
+    $('.stop').click(function () {
+        $('#box').stop();
     });
 
-
+    //很多时候需要停止正在运行中的动画，jQuery 为此提供了一个.stop()方法。它有两个可
+    //选参数：.stop(clearQueue, gotoEnd)；clearQueue 传递一个布尔值(默认为false)，代表是否清空未执行完的
+    //动画列队，gotoEnd 代表是否直接将正在执行的动画跳转到末状态(默认值为false)。
     $('.button').click(function(){
-        $('#box').animate({
-            left:'200px',
-            top:'300px'
-        },'normal',function(){
-            alert('动画执行完毕执行我！');
-        })
+        $('#box').animate({left:'300px'},1000)
+            .animate({bottom:'300px'},1000)
+            .animate({width:'200px'},1000)
+            .animate({height:'200px'},1000);
+    });
+    $('.stop').click(function () {
+        $('#box').stop(true,true);
     });
 
 
-    //自定义动画中，每次开始运动都必须是初始位置或初始状态，而有时我们想通过当前位
-    //置或状态下再进行动画。jQuery 提供了自定义动画的累加、累减功能。
-    $('.button').click(function () {
-        $('#box').animate({
-            'left' : '+=100px',
-        });
-    });
-
-
-
-    //自定义实现列队动画的方式，有两种：1.在回调函数中再执行一个动画；2.通过连缀或
-    //顺序来实现列队动画。
-
-    //1.在回调函数中再执行一个动画
+    //时，需要在运动之前有延迟执行，jQuery 为此提供了.delay()
+    //方法。这个方法可以在动画之前设置延迟，也可以在列队动画中间加上。
     $('.button').click(function(){
-        $('#box').animate({
-            left:'200px'
-        },function(){
-            $('#box').animate({
-                top:'300px'
-            },function(){
-                $('#box').animate({
-                    opacity:0.5
-                })
-            })
-        })
+        $('#box').delay(2000).animate({left:'300px'})
+            .animate({bottom:'300px'})
+            .animate({width:'200px'})
+            .animate({height:'200px'});
     });
 
 
-    //2.通过连缀或顺序来实现列队动画。
+    //过滤器:animated
+    $('#box').slideToggle('slow',function(){
+        $(this).slideToggle('slow',arguments.callee);
+    });
+    $('.ani').click(function(){
+        $(':animated').css('backgroundColor','red');
+    })
+
+
+    //六．动画全局属性
+    //jQuery 提供了两种全局设置的属性，分别为：$.fx.interval，设置每秒运行的帧数；$.fx.off，
+    //关闭页面上所有的动画。
+    //$.fx.interval 属性可以调整动画每秒的运行帧数，默认为13 毫秒。数字越小越流畅，但
+    //可能影响浏览器性能。
+    $.fx.interval = 1000; //默认为13
+    $.fx.off=true;
     $('.button').click(function () {
-        $('#box').animate({'left' : '100px'});
-        $('#box').animate({'top' : '100px'});
-        $('#box').animate({'width' : '300px'});
-    });
-    //注意：如果不是同一个元素，就会实现同步动画
-
-
-    //连缀无法实现按顺序列队
-    $('#box').slideUp('slow').slideDown('slow').css('background', 'red');
-    //注意：如果动画方法，连缀可以实依次列队，而.css()方法不是动画方法，会在一开始
-    //传入列队之前。那么，可以采用动画方法的回调函数来解决。
-
-
-    //使用.queue()方法模拟动画方法跟随动画方法之后
-    $('.button').click(function(){
-        $('#box').slideUp('slow').slideDown('slow').queue(function () {
-            $(this).css('background', 'red');
-        });
+        $('#box').toggle(3000);
     });
      */
-    //使用next 参数来实现继续调用列队动画
-    $('.button').click(function() {
-        $('#box').slideUp('slow').slideDown('slow').queue(function (next) {
-            $(this).css('background', 'red');
-            next();
-        }).hide('slow');
+
+    //在.animate()方法中，还有一个参数，easing 运动方式，这个参数，大部分参数值
+    //需要通过插件来使用，在后面的课程中，会详细讲解。自带的参数有两个：swing(缓动)、
+    //linear(匀速)，默认为swing。
+    $('.button').click(function () {
+        $('#box').animate({
+            left : '800px'
+        }, 'slow', 'swing');
+        $('#pox').animate({
+            left : '800px'
+        }, 'slow', 'linear');
     });
-    //，jQuery 的.queue()的回调函数可以
-    //传递一个参数，这个参数是next 函数，在结尾处调用这个next()方法即可再连缀执行列队动
-    //画。
+
 });
