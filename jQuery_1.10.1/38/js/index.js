@@ -4,7 +4,7 @@ $(function(){
 
     $('#search_button').button();
 
-//dialog()的方法
+//dialog()的事件方法
 
     //focus
     /*
